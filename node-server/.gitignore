@@ -9,3 +9,5 @@ node_modules
 
 .idea
 .DS_Store
+
+models/notus-7b-v1.Q3_K_S.gguf

@@ -1,12 +1,12 @@
 {
-  "name": "gpt-server",
+  "name": "server",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Kris",
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start": "nodemon index.js"
+    "start:server": "nodemon index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",

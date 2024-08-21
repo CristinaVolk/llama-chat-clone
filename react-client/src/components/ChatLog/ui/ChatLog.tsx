@@ -54,10 +54,12 @@ export const ChatLog = () => {
     return (
         <div className="p-5 h-screen bg-black">
             <div className="container mx-auto bg-gray-900 h-full flex flex-col">
-                <div className="flex flex-grow flex-col content-end p-3 space-y-3">
-                    {messages.map(({type, message} : Message, index) =>
-                        <ChatMessage key={index} type={type} message={message}/>
-                    )}
+                <div className="flex flex-grow flex-row items-end p-3">
+                    <div className="w-full p-2 space-y-3 overflow-auto h-[75vh]">
+                        {messages.map(({type, message} : Message, index) =>
+                            <ChatMessage key={index} type={type} message={message}/>
+                        )}
+                    </div>
                 </div>
 
                 <div
