@@ -1,0 +1,11 @@
+# Logs
+logs
+*.log
+yarn-debug.log*
+yarn-error.log*
+yarn.lock
+
+node_modules
+
+.idea
+.DS_Store
