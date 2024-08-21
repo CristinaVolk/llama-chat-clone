@@ -1,0 +1,17 @@
+{
+  "name": "gpt-clone-llama",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/CristinaVolk/llama-chat-clone.git",
+  "author": "Kris <kristina.volk@coderscrew.pl>",
+  "license": "MIT",
+  "scripts": {
+    "server": "npm run start:server --prefix node-server",
+    "client": "npm run start:client --prefix react-client",
+    "start": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
