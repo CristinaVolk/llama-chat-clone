@@ -7,23 +7,23 @@ interface ChatMessageProps {
 
 export const ChatMessage = (props: ChatMessageProps) => {
     const {message} = props
-    const {body, type, format, mimeType, fileName} = message
+    const {body, type, format, fileName} = message
 
 
     function renderMessage() {
         if (format === "file") {
-            const blob = new Blob([body], {type: mimeType})
+            // const blob = new Blob([body], {type: mimeType})
 
             if (type === "send") {
                 return (
                     <div className="bg-violet-500 p-2 rounded-b-lg rounded-tr-lg">
-                        <Image blob={blob} alt={fileName ?? ""} className={"w-[150px] h-auto"} />
+                        <Image file={body as File} alt={fileName ?? ""} className={"w-[150px] h-auto"} />
                     </div>
                 )
             } else if (type === "receive")  {
                 return (
                     <div className="bg-white p-2 rounded-b-lg rounded-tl-lg">
-                        <Image blob={blob} alt={fileName ?? ""} className={"w-[150px] h-auto"}/>
+                        <Image file={body as File} alt={fileName ?? ""} className={"w-[150px] h-auto"}/>
                     </div>
                 )
             }

@@ -12,8 +12,8 @@ export const useChatLog = () => {
         const newSocket = io("http://localhost:8000")
         socketRef.current = newSocket
 
-        socketRef.current.on("response", (message: string) => {
-            receivedMessage({body: message, type: "receive", format: "text"})
+        socketRef.current.on("response", (message: Message) => {
+            receivedMessage(message)
         })
 
         return () => {
