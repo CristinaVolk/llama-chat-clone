@@ -1,82 +1,53 @@
 import {ChatMessage} from "../../ChatMessage/ui/ChatMessage.tsx";
-import React, {ChangeEvent, useEffect, useState} from "react";
-import {io, Socket} from 'socket.io-client'
-
-interface Message {
-    type: "send" | "receive"
-    message: string
-}
+import {ImageUpload} from "../../ImageUpload/ui/ImageUpload.tsx";
+import {useChatLog} from "../model/hooks/useChatLog.ts";
+import {Message} from "../model/types/Message.ts";
 
 
 export const ChatLog = () => {
-    const [newSocket, setNewSocket] = useState<Socket>()
-    const [inputValue, setInputValue] = useState<string>('')
-    const [messages, setMessages] = useState<Array<Message>>([])
-
-    useEffect(() => {
-        const newSocket = io("http://localhost:8000")
-        setNewSocket(newSocket)
-
-        newSocket.on("response", (message: string) => {
-            setMessages(prevState => [
-                    ...prevState,
-                    {
-                        type: "receive",
-                        message
-                    }
-                ])
-        })
-
-        return () => {
-            newSocket.close()
-        }
-    }, []);
-
-    const onChangeInput = (event:ChangeEvent<HTMLInputElement>) => {
-        setInputValue(event.target.value)
-    }
-
-    const onKeyDownInput = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === "Enter") {
-            sendMessage()
-        }
-    }
-
-    const sendMessage = () => {
-        setMessages(prevState => [
-            ...prevState,
-            {type: "send", message: inputValue}
-        ])
-        setInputValue('')
-        newSocket!.emit("message", inputValue)
-    }
+    const {
+        messages,
+        selectFile,
+        inputValue,
+        sendMessage,
+        handleChange,
+        handleChangeOnEnter,
+    } = useChatLog()
 
     return (
         <div className="p-5 h-screen bg-black">
             <div className="container mx-auto bg-gray-900 h-full flex flex-col">
                 <div className="flex flex-grow flex-row items-end p-3">
                     <div className="w-full p-2 space-y-3 overflow-auto h-[75vh]">
-                        {messages.map(({type, message} : Message, index) =>
-                            <ChatMessage key={index} type={type} message={message}/>
+                        {messages.map((message : Message, index) =>
+                            <ChatMessage key={index} message={message} />
                         )}
                     </div>
                 </div>
 
                 <div
-                    className="h-[100px] flex p-3 justify-center items-center bg-gray-700"
+                    className="h-[100px] w-full flex p-3 justify-center items-center bg-gray-700"
                 >
-                    <input
-                        type="text"
-                        onKeyDown={onKeyDownInput}
-                        value={inputValue}
-                        onChange={onChangeInput}
-                        placeholder="Ask me anything..."
-                        className="w-full p-2 bg-transparent text-white border-2 rounded-md outline-none"
-                    />
-                    <button
-                        onClick={sendMessage}
-                        className="bg-violet-600 px-3 p-2 rounded-md mx-2 text-white cursor-pointer"
-                    >Send</button>
+                    <div className="p-3">
+                        <ImageUpload />
+                    </div>
+
+                    <form
+                        onSubmit={sendMessage}
+                        className="flex w-full p-2 bg-transparent text-white border-2 rounded-md outline-none"
+                    >
+                        <textarea
+                            value={inputValue}
+                            onChange={handleChange}
+                            placeholder="Ask me anything..."
+                            className="w-full bg-transparent"
+                            onKeyDown={handleChangeOnEnter}
+                        />
+                        <input onChange={selectFile} type="file" />
+                        <button
+                            className="bg-violet-600 px-3 p-2 rounded-md mx-2 text-white cursor-pointer"
+                        >Send</button>
+                    </form>
                 </div>
             </div>
         </div>

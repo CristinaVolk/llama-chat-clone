@@ -7,11 +7,11 @@ import {LlamaModel, LlamaContext, LlamaChatSession} from "node-llama-cpp";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const model = new LlamaModel({
-    modelPath: path.join(__dirname, "models", "notus-7b-v1.Q3_K_S.gguf")
-});
-const context = new LlamaContext({model});
-const session = new LlamaChatSession({context});
+// const model = new LlamaModel({
+//     modelPath: path.join(__dirname, "models", "notus-7b-v1.Q3_K_S.gguf")
+// });
+// const context = new LlamaContext({model});
+// const session = new LlamaChatSession({context});
 
 const app = express()
 const server = createServer(app)
@@ -24,11 +24,14 @@ const io = new Server(server, {
     }
 })
 
-io.on("connection", (sock) => {
+io.on("connection", (socket) => {
     console.log("New connection")
-    sock.on("message", async (msg) => {
-        const llamaResponse = await session.prompt(msg)
-        sock.emit("response", llamaResponse)
+
+    socket.on("send message", async (msg, args) => {
+        console.log({ msg, args })
+        // const llamaResponse = await session.prompt(msg)
+        const llamaResponse = "Hi, this is Llama"
+        io.emit("response", llamaResponse)
     })
 })
 

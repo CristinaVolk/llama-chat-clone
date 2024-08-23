@@ -1,11 +1,17 @@
+# How to run the GPT-CLONE-LLama app:
+
+First the dependencies for the project are need to be installed:
+1. Go to the folder `node-server` and run the command:  `npm install` or `yarn install`
+2. Go to the folder `react-client` and run the command:  `npm install` or `yarn install`
+3. Come back to the root directory `gpt-clone-llama` and hit the command: `npm run start`
+4. See the messages in the console, the app will be open on the `http://localhost:5173`
+
+
+
+
+
 # React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
 ## Expanding the ESLint configuration
 
