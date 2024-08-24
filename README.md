@@ -1,10 +1,28 @@
 # How to run the GPT-CLONE-LLama app:
 
+Required tools:
+- NodeJS
+- npm or yarn 
+
+In order to install `Node`and `npm` please use [NVM](https://github.com/nvm-sh/nvm). 
+
+[Here is the guide](https://www.freecodecamp.org/news/node-version-manager-nvm-install-guide/) hot to set up NVM
+
 First the dependencies for the project are need to be installed:
+
 1. Go to the folder `node-server` and run the command:  `npm install` or `yarn install`
 2. Go to the folder `react-client` and run the command:  `npm install` or `yarn install`
-3. Come back to the root directory `gpt-clone-llama` and hit the command: `npm run start`
-4. See the messages in the console, the app will be open on the `http://localhost:5173`
+3. Come back to the root directory `gpt-clone-llama` and hit the command: 
+   1. `npm install`  
+   2. `npm run start`
+   
+   _**If any of the dependencies cannot be installed because of the conflicting versions use the command:**_ 
+
+   `npm install --legacy-peer-deps` or `npm install --force`
+
+4. See the messages in the console, 
+   1. The server will be running on `http://localhost:8000`
+   2. The app will be open on the `http://localhost:5173`
 
 
 
