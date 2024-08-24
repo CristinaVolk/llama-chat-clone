@@ -30,7 +30,7 @@ io.on("connection", (socket) => {
     socket.on("send message", async (msg, args) => {
         console.log({ msg, args })
         // const llamaResponse = await session.prompt(msg)
-        const llamaResponse = "Hi, this is Llama"
+        // const llamaResponse = "Hi, this is Llama"
         io.emit("response", {...msg, type: "receive"})
     })
 })

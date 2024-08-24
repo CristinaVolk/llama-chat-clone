@@ -1,12 +1,13 @@
 import React, {ChangeEvent, FormEvent, useEffect, useRef, useState} from "react";
 import {io, Socket} from "socket.io-client";
-import {Message} from "../types/Message.ts";
+import {Message} from "../../../../shared/types/Message.ts";
+import {convertToBase64} from "../../../../shared/helpers/convertToBase64.ts";
 
 export const useChatLog = () => {
     const socketRef = useRef<Socket>()
     const [inputValue, setInputValue] = useState<string>('')
     const [messages, setMessages] = useState<Array<Message>>([])
-    const [file, setFile] = useState<File>()
+    const [file, setFile] = useState<File | null>(null)
 
     useEffect(() => {
         const newSocket = io("http://localhost:8000")
@@ -45,7 +46,7 @@ export const useChatLog = () => {
         }
     }
 
-    const sendMessage = (event?: FormEvent) => {
+    const sendMessage = async (event?: FormEvent) => {
         event?.preventDefault()
         let messageObject: Message
 
@@ -54,11 +55,14 @@ export const useChatLog = () => {
         }
 
         if (file) {
+            const fileBase64 = await convertToBase64(file)
+            if (!fileBase64) {
+                return
+            }
             messageObject = {
                 type: "send",
                 format: "file",
-                body: file,
-                mimeType: file.type,
+                body: fileBase64,
                 fileName: file.name
             }
         } else {
@@ -69,8 +73,9 @@ export const useChatLog = () => {
             }
         }
 
-        receivedMessage(messageObject)
+        setFile(null)
         setInputValue("")
+        receivedMessage(messageObject)
         socketRef.current?.emit("send message", messageObject)
     }
 

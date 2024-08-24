@@ -1,7 +1,6 @@
 export interface Message {
     type: "send" | "receive"
-    body: string | File
+    body: string
     format: "file" | "text"
-    mimeType?: string
     fileName?: string
 }

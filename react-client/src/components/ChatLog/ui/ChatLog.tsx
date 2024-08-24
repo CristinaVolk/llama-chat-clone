@@ -1,7 +1,7 @@
 import {ChatMessage} from "../../ChatMessage/ui/ChatMessage.tsx";
 import {ImageUpload} from "../../ImageUpload/ui/ImageUpload.tsx";
 import {useChatLog} from "../model/hooks/useChatLog.ts";
-import {Message} from "../model/types/Message.ts";
+import {Message} from "../../../shared/types/Message.ts";
 
 
 export const ChatLog = () => {
@@ -43,10 +43,14 @@ export const ChatLog = () => {
                             className="w-full bg-transparent"
                             onKeyDown={handleChangeOnEnter}
                         />
-                        <input onChange={selectFile} type="file" />
-                        <button
-                            className="bg-violet-600 px-3 p-2 rounded-md mx-2 text-white cursor-pointer"
-                        >Send</button>
+                        <input
+                            type="file"
+                            onChange={selectFile}
+                            accept="*.jpeg *.png *.jpg"
+                        />
+                        <button className="bg-violet-600 px-3 p-2 rounded-md mx-2 text-white cursor-pointer">
+                            Send
+                        </button>
                     </form>
                 </div>
             </div>

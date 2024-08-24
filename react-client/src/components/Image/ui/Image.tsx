@@ -1,21 +1,20 @@
 import {useEffect, useState} from "react";
 
 interface ImageProps {
-    file?: File,
+    imgSrcInBase64?: string,
     alt: string,
     className: string
     src?: string
 }
 
 export const Image = (props: ImageProps) => {
-    const {file, alt, className, src} = props
+    const {imgSrcInBase64, alt, className, src} = props
     const [imageSrc, setImageSrc] = useState<string>("")
 
     useEffect( () => {
         async function loadImagSrc() {
-            if (file) {
-                const resultImgSrc = await convertToBase64(file)
-                setImageSrc(resultImgSrc)
+            if (imgSrcInBase64) {
+                setImageSrc(imgSrcInBase64)
             }
 
             if (src) {
@@ -24,25 +23,7 @@ export const Image = (props: ImageProps) => {
         }
 
         loadImagSrc()
-    }, [file, src]);
-
-    function convertToBase64(file: File) : Promise<string> {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader()
-            reader.readAsDataURL(file)
-
-            reader.onloadend = () => {
-                if (reader.result) {
-                    resolve(reader.result as string)
-                }
-            }
-
-            reader.onerror = (error) => {
-                reject(error)
-            }
-
-        })
-    }
+    }, [imgSrcInBase64, src]);
 
     return (
         <img
