@@ -1,13 +1,19 @@
 import {Message} from "../../../shared/types/Message.ts";
 import {Image} from "../../Image/ui/Image.tsx";
+import {memo} from "react";
 
 interface ChatMessageProps {
     message: Message
 }
 
-export const ChatMessage = (props: ChatMessageProps) => {
+export const ChatMessage = memo((props: ChatMessageProps) => {
     const {message} = props
-    const {body, type, format, fileName} = message
+    const {
+        body,
+        type,
+        format,
+        fileName
+    } = message
 
 
     function renderMessage() {
@@ -16,7 +22,11 @@ export const ChatMessage = (props: ChatMessageProps) => {
                 <div className="bg-violet-500 p-2 rounded-b-lg rounded-tr-lg">
                     {
                         format === "file"
-                            ? <Image imgSrcInBase64={body} alt={fileName ?? ""} className={"w-[150px] h-auto"}/>
+                            ? <Image
+                                alt={fileName ?? ""}
+                                imgSrcInBase64={body}
+                                className="w-[150px] h-auto"
+                            />
                             : body
                     }
                 </div>
@@ -26,14 +36,17 @@ export const ChatMessage = (props: ChatMessageProps) => {
                 <div className="bg-white p-2 rounded-b-lg rounded-tl-lg">
                     {
                         format === "file"
-                            ? <Image imgSrcInBase64={body} alt={fileName ?? ""} className={"w-[150px] h-auto"}/>
+                            ? <Image
+                                imgSrcInBase64={body}
+                                alt={fileName ?? ""}
+                                className="w-[150px] h-auto"
+                            />
                             : body
                     }
                 </div>
             )
         }
     }
-
 
     return (
         <div className={`flex w-full ${
@@ -42,4 +55,4 @@ export const ChatMessage = (props: ChatMessageProps) => {
             {renderMessage()}
         </div>
     )
-}
+})

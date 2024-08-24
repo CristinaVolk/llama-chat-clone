@@ -7,7 +7,13 @@ export const useChatLog = () => {
     const socketRef = useRef<Socket>()
     const [inputValue, setInputValue] = useState<string>('')
     const [messages, setMessages] = useState<Array<Message>>([])
-    const [file, setFile] = useState<File | null>(null)
+    const [picture, setPicture] = useState<File | null>(null)
+    const pictureUploadRef = useRef<HTMLInputElement>(null)
+
+    const handleImageUpload = (event: FormEvent) => {
+        event.preventDefault()
+        pictureUploadRef?.current?.click()
+    }
 
     useEffect(() => {
         const newSocket = io("http://localhost:8000")
@@ -41,8 +47,11 @@ export const useChatLog = () => {
 
     function selectFile(event: ChangeEvent<HTMLInputElement>) {
         if (event.target.files) {
-            setInputValue(event.target.files[0].name)
-            setFile(event.target.files[0])
+            const uploadedPicture = pictureUploadRef?.current?.files?.[0]
+            if (uploadedPicture) {
+                setInputValue(uploadedPicture.name)
+                setPicture(uploadedPicture)
+            }
         }
     }
 
@@ -54,8 +63,8 @@ export const useChatLog = () => {
             return
         }
 
-        if (file) {
-            const fileBase64 = await convertToBase64(file)
+        if (picture) {
+            const fileBase64 = await convertToBase64(picture)
             if (!fileBase64) {
                 return
             }
@@ -63,7 +72,7 @@ export const useChatLog = () => {
                 type: "send",
                 format: "file",
                 body: fileBase64,
-                fileName: file.name
+                fileName: picture.name
             }
         } else {
             messageObject = {
@@ -73,20 +82,21 @@ export const useChatLog = () => {
             }
         }
 
-        setFile(null)
+        setPicture(null)
         setInputValue("")
         receivedMessage(messageObject)
         socketRef.current?.emit("send message", messageObject)
     }
 
     return {
-        setFile,
         messages,
         socketRef,
         selectFile,
         inputValue,
         sendMessage,
         handleChange,
+        pictureUploadRef,
+        handleImageUpload,
         handleChangeOnEnter,
     }
 }

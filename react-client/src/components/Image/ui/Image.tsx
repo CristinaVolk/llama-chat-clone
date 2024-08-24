@@ -1,13 +1,13 @@
-import {useEffect, useState} from "react";
+import {memo, useEffect, useState} from "react";
 
 interface ImageProps {
-    imgSrcInBase64?: string,
     alt: string,
-    className: string
     src?: string
+    className: string
+    imgSrcInBase64?: string,
 }
 
-export const Image = (props: ImageProps) => {
+export const Image = memo((props: ImageProps) => {
     const {imgSrcInBase64, alt, className, src} = props
     const [imageSrc, setImageSrc] = useState<string>("")
 
@@ -32,4 +32,4 @@ export const Image = (props: ImageProps) => {
             className={className}
         />
     )
-}
+})

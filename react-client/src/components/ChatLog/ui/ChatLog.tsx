@@ -2,6 +2,7 @@ import {ChatMessage} from "../../ChatMessage/ui/ChatMessage.tsx";
 import {ImageUpload} from "../../ImageUpload/ui/ImageUpload.tsx";
 import {useChatLog} from "../model/hooks/useChatLog.ts";
 import {Message} from "../../../shared/types/Message.ts";
+import AttachImgIcon from "../../../assets/attach-img.png";
 
 
 export const ChatLog = () => {
@@ -11,8 +12,12 @@ export const ChatLog = () => {
         inputValue,
         sendMessage,
         handleChange,
+        pictureUploadRef,
+        handleImageUpload,
         handleChangeOnEnter,
     } = useChatLog()
+
+
 
     return (
         <div className="p-5 h-screen bg-black">
@@ -34,17 +39,30 @@ export const ChatLog = () => {
 
                     <form
                         onSubmit={sendMessage}
-                        className="flex w-full p-2 bg-transparent text-white border-2 rounded-md outline-none"
+                        className="flex items-center w-full p-2 bg-transparent text-white border-2 rounded-md outline-none"
                     >
                         <textarea
                             value={inputValue}
                             onChange={handleChange}
                             placeholder="Ask me anything..."
-                            className="w-full bg-transparent"
+                            className="w-full bg-transparent mr-2"
                             onKeyDown={handleChangeOnEnter}
                         />
+                        <button
+                            className="flex-center left-3 right-14 h-7 w-7 rounded-full"
+                            onClick={handleImageUpload}
+                        >
+                            <img
+                                src={AttachImgIcon}
+                                alt="attach image"
+                                className="object-cover"
+                            />
+
+                        </button>
                         <input
+                            hidden
                             type="file"
+                            ref={pictureUploadRef}
                             onChange={selectFile}
                             accept="*.jpeg *.png *.jpg"
                         />
